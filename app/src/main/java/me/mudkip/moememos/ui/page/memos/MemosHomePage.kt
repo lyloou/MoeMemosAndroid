@@ -1,5 +1,7 @@
 package me.mudkip.moememos.ui.page.memos
 
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
@@ -7,6 +9,8 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import kotlinx.coroutines.launch
 import me.mudkip.moememos.R
 import me.mudkip.moememos.ext.string
@@ -20,11 +24,21 @@ fun MemosHomePage(
 ) {
     val scope = rememberCoroutineScope()
     val rootNavController = LocalRootNavController.current
+    val scrollState = rememberLazyListState()
+
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = R.string.memos.string) },
+                title = {
+                    Text(text = R.string.memos.string, modifier = Modifier.pointerInput(Unit) {
+                        detectTapGestures(onDoubleTap = {
+                            scope.launch {
+                                scrollState.animateScrollToItem(0)
+                            }
+                        })
+                    })
+                },
                 navigationIcon = {
                     IconButton(onClick = { scope.launch { drawerState.open() } }) {
                         Icon(Icons.Filled.Menu, contentDescription = R.string.menu.string)
@@ -52,7 +66,8 @@ fun MemosHomePage(
 
         content = { innerPadding ->
             MemosList(
-                contentPadding = innerPadding
+                contentPadding = innerPadding,
+                lazyListState = scrollState
             )
         }
     )

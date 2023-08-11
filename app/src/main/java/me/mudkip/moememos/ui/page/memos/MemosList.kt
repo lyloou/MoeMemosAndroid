@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
@@ -22,6 +23,7 @@ fun MemosList(
     contentPadding: PaddingValues,
     swipeEnabled: Boolean = true,
     tag: String? = null,
+    lazyListState: LazyListState = rememberLazyListState(),
     searchString: String? = null
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -35,7 +37,7 @@ fun MemosList(
         tag?.let { tag ->
             fullList = fullList.filter { memo ->
                 memo.content.contains("#$tag") ||
-                    memo.content.contains("#$tag/")
+                        memo.content.contains("#$tag/")
             }
         }
 
@@ -49,7 +51,6 @@ fun MemosList(
 
         fullList
     }
-    val lazyListState = rememberLazyListState()
     var listTopId: Long? by rememberSaveable {
         mutableStateOf(null)
     }
