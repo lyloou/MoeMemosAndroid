@@ -30,15 +30,7 @@ fun MemosHomePage(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    Text(text = R.string.memos.string, modifier = Modifier.pointerInput(Unit) {
-                        detectTapGestures(onDoubleTap = {
-                            scope.launch {
-                                scrollState.animateScrollToItem(0)
-                            }
-                        })
-                    })
-                },
+                title = { Text(text = R.string.memos.string) },
                 navigationIcon = {
                     IconButton(onClick = { scope.launch { drawerState.open() } }) {
                         Icon(Icons.Filled.Menu, contentDescription = R.string.menu.string)
@@ -50,6 +42,13 @@ fun MemosHomePage(
                     }) {
                         Icon(Icons.Filled.Search, contentDescription = R.string.search.string)
                     }
+                },
+                modifier = Modifier.pointerInput(Unit) {
+                    detectTapGestures(onDoubleTap = {
+                        scope.launch {
+                            scrollState.animateScrollToItem(0)
+                        }
+                    })
                 }
             )
         },
