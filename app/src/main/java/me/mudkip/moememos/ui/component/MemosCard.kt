@@ -3,6 +3,7 @@ package me.mudkip.moememos.ui.component
 import android.content.Intent
 import android.text.format.DateUtils
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,6 +36,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -57,10 +59,16 @@ fun MemosCard(
 ) {
     val memosViewModel = LocalMemos.current
     val scope = rememberCoroutineScope()
+    val rootNavController = LocalRootNavController.current
 
     Card(
         modifier = Modifier
             .padding(horizontal = 15.dp, vertical = 10.dp)
+            .pointerInput(Unit) {
+                detectTapGestures(onDoubleTap = {
+                    rootNavController.navigate("${RouteName.EDIT}?memoId=${memo.id}")
+                })
+            }
             .fillMaxWidth(),
         border = if (memo.pinned && memo.rowStatus == MemosRowStatus.NORMAL) { BorderStroke(1.dp, MaterialTheme.colorScheme.primary) } else { null }
     ) {
