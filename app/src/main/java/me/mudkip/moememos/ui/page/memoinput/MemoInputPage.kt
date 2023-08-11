@@ -212,7 +212,7 @@ fun MemoInputPage(
             )
         },
         bottomBar = {
-            BottomAppBar {
+            BottomAppBar(modifier = Modifier.height(48.dp)) {
                 Box {
                     DropdownMenu(
                         expanded = visibilityMenuExpanded,
@@ -336,7 +336,7 @@ fun MemoInputPage(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 20.dp, end = 20.dp, bottom = 30.dp)
+                    .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
                     .weight(1f)
                     .focusRequester(focusRequester),
 //                    .onKeyEvent { event ->
